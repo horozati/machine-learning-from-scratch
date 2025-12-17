@@ -55,10 +55,7 @@ W is the weights shaped n(number of input features) x r(number of label features
 $$
 B =
 \begin{bmatrix}
-b_{1} \\
-b_{2} \\
-\vdots \\
-b_{r} 
+b_{1} & b_{2} & \cdots & b_{r}
 \end{bmatrix}
 $$
 
