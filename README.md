@@ -59,7 +59,12 @@ b_{1} & b_{2} & \cdots & b_{r}
 \end{bmatrix}
 $$
 
-B is the bias term shaped 1 x r
+B is the bias terms shaped 1 x r
+
+We obtain our input using forward propagation.
+$$
+\hat{Y} = X\cdotW + B
+$$
 
 ```python
 import numpy as np
