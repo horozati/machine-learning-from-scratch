@@ -28,6 +28,8 @@ pip install -e .
 
 ### Linear Regression
 
+#### Variables
+
 $$
 X =
 \begin{bmatrix}
@@ -73,7 +75,9 @@ $$
 
 B is the bias terms shaped 1 x r
 
-We obtain our input using forward propagation.
+#### Forward Propagation
+
+We first estimate the labels using the random weights and biases(or zero), this estimate is called \hat{Y}
 
 $$
 \hat{Y} = X \cdot W + B
