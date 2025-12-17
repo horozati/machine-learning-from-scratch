@@ -24,7 +24,7 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-## Quick Start
+## Models
 
 ### Linear Regression
 
