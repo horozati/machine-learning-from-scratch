@@ -77,7 +77,7 @@ B is the bias terms shaped 1 x r
 
 #### Forward Propagation
 
-We first estimate the labels using the random weights and biases(or zero), this estimate is called Y 
+We first estimate the labels using the random weights and biases(or zero) which is probably off from the labels, this estimate is called \( \hat{Y} \).
 
 $$
 \hat{Y} = X \cdot W + B
