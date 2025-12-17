@@ -24,16 +24,6 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-$$
-X =
-\begin{bmatrix}
-x_{11} & x_{12} & \cdots & x_{1n} \\
-x_{21} & x_{22} & \cdots & x_{2n} \\
-\vdots & \vdots & \ddots & \vdots \\
-x_{m1} & x_{m2} & \cdots & x_{mn}
-\end{bmatrix}
-$$
-
 ## Models
 
 ### Linear Regression
@@ -54,6 +44,26 @@ model.fit(X, y)
 predictions = model.predict(np.array([[6], [7]]))
 print(predictions)  # Should be close to [[12], [14]]
 ```
+
+$$
+X =
+\begin{bmatrix}
+x_{11} & x_{12} & \cdots & x_{1n} \\
+x_{21} & x_{22} & \cdots & x_{2n} \\
+\vdots & \vdots & \ddots & \vdots \\
+x_{m1} & x_{m2} & \cdots & x_{mn}
+\end{bmatrix}
+$$
+
+$$
+W =
+\begin{bmatrix}
+w_{11} & w_{12} & \cdots & w_{1r} \\
+w_{21} & w_{22} & \cdots & w_{2r} \\
+\vdots & \vdots & \ddots & \vdots \\
+w_{n1} & w_{n2} & \cdots & w_{nr}
+\end{bmatrix}
+$$
 
 ### Neural Network Classifier
 
