@@ -33,14 +33,14 @@ pip install -e .
 $$
 X =
 \begin{bmatrix}
-x_{11} & x_{12} & \cdots & x_{1n} \\
-x_{21} & x_{22} & \cdots & x_{2n} \\
+x_{11} & x_{12} & \cdots & x_{1m} \\
+x_{21} & x_{22} & \cdots & x_{2m} \\
 \vdots & \vdots & \ddots & \vdots \\
-x_{m1} & x_{m2} & \cdots & x_{mn}
+x_{n1} & x_{n2} & \cdots & x_{nm}
 \end{bmatrix}
 $$ 
 
-X is our inputs shaped m(number of samples) x n(number of input features)
+X is our inputs shaped n(number of samples) x m(number of input features)
 
 $$
 Y =
@@ -48,11 +48,11 @@ Y =
 y_{11} & y_{12} & \cdots & y_{1r} \\
 y_{21} & y_{22} & \cdots & y_{2r} \\
 \vdots & \vdots & \ddots & \vdots \\
-y_{m1} & y_{m2} & \cdots & y_{mr}
+y_{n1} & y_{n2} & \cdots & y_{nr}
 \end{bmatrix}
 $$
 
-Y is the labels shaped m(number of samples) x r(number of label features)
+Y is the labels shaped n(number of samples) x r(number of label features)
 
 $$
 W =
@@ -60,11 +60,11 @@ W =
 w_{11} & w_{12} & \cdots & w_{1r} \\
 w_{21} & w_{22} & \cdots & w_{2r} \\
 \vdots & \vdots & \ddots & \vdots \\
-w_{n1} & w_{n2} & \cdots & w_{nr}
+w_{m1} & w_{m2} & \cdots & w_{mr}
 \end{bmatrix}
 $$
 
-W is the weights shaped n x r
+W is the weights shaped m x r
 
 $$
 B =
@@ -77,11 +77,18 @@ B is the bias terms shaped 1 x r
 
 #### Forward Propagation
 
-We first estimate the labels using the random weights and biases(or zero) which is probably off from the labels, this estimate is called \( \hat{Y} \).
+We first estimate the labels using the random weights and biases(or zero) which is probably off from the labels the first time, this estimate is called \( \hat{Y} \) .
 
 $$
 \hat{Y} = X \cdot W + B
 $$
+
+#### Backward Propagation
+
+We define a function L that takes our weights and biases as inputs and uses forward propagation to estimate Y_hat. After that it computes the sum of squared residuals divided by 2n to measure and quantify the error of the predictions.
+
+\( L(W,B) = \frac{1}{2n} \sum_{i=1}^n \sum_{j=1}^r \sum_{k=1}^m (X_{ik} W_{kj} + B_j - Y_{ij})^2 \)
+
 
 ```python
 import numpy as np
