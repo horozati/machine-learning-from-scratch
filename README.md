@@ -41,6 +41,18 @@ $$
 X is our inputs shaped m(number of samples) x n(number of input features)
 
 $$
+Y =
+\begin{bmatrix}
+y_{11} & y_{12} & \cdots & y_{1r} \\
+y_{21} & y_{22} & \cdots & y_{2r} \\
+\vdots & \vdots & \ddots & \vdots \\
+y_{m1} & y_{m2} & \cdots & y_{mr}
+\end{bmatrix}
+$$
+
+Y is the labels shaped m(number of samples) x r(number of label features)
+
+$$
 W =
 \begin{bmatrix}
 w_{11} & w_{12} & \cdots & w_{1r} \\
@@ -50,7 +62,7 @@ w_{n1} & w_{n2} & \cdots & w_{nr}
 \end{bmatrix}
 $$
 
-W is the weights shaped n(number of input features) x r(number of label features)
+W is the weights shaped n x r
 
 $$
 B =
@@ -62,6 +74,7 @@ $$
 B is the bias terms shaped 1 x r
 
 We obtain our input using forward propagation.
+
 $$
 \hat{Y} = X \cdot W + B
 $$
