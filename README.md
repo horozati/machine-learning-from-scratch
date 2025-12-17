@@ -44,6 +44,8 @@ model.fit(X, y)
 predictions = model.predict(np.array([[6], [7]]))
 print(predictions)  # Should be close to [[12], [14]]
 ```
+X is our inputs which is a matrix shaped n(number of samples) x m(number of features)
+We have W and B as our terms we use to predict the outputs Y
 
 $$
 X =
