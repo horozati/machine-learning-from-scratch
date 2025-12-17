@@ -28,6 +28,26 @@ pip install -e .
 
 ### Linear Regression
 
+$$
+X =
+\begin{bmatrix}
+x_{11} & x_{12} & \cdots & x_{1n} \\
+x_{21} & x_{22} & \cdots & x_{2n} \\
+\vdots & \vdots & \ddots & \vdots \\
+x_{m1} & x_{m2} & \cdots & x_{mn}
+\end{bmatrix}
+$$ X is our inputs shaped m(number of samples) x n(number of features)
+
+$$
+W =
+\begin{bmatrix}
+w_{11} & w_{12} & \cdots & w_{1r} \\
+w_{21} & w_{22} & \cdots & w_{2r} \\
+\vdots & \vdots & \ddots & \vdots \\
+w_{n1} & w_{n2} & \cdots & w_{nr}
+\end{bmatrix}
+$$
+
 ```python
 import numpy as np
 from src.miniml import LinearRegression
@@ -44,28 +64,6 @@ model.fit(X, y)
 predictions = model.predict(np.array([[6], [7]]))
 print(predictions)  # Should be close to [[12], [14]]
 ```
-X is our inputs which is a matrix shaped n(number of samples) x m(number of features)
-We have W and B as our terms we use to predict the outputs Y
-
-$$
-X =
-\begin{bmatrix}
-x_{11} & x_{12} & \cdots & x_{1n} \\
-x_{21} & x_{22} & \cdots & x_{2n} \\
-\vdots & \vdots & \ddots & \vdots \\
-x_{m1} & x_{m2} & \cdots & x_{mn}
-\end{bmatrix}
-$$
-
-$$
-W =
-\begin{bmatrix}
-w_{11} & w_{12} & \cdots & w_{1r} \\
-w_{21} & w_{22} & \cdots & w_{2r} \\
-\vdots & \vdots & \ddots & \vdots \\
-w_{n1} & w_{n2} & \cdots & w_{nr}
-\end{bmatrix}
-$$
 
 ### Neural Network Classifier
 
