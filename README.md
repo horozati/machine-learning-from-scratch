@@ -24,6 +24,16 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
+$$
+X =
+\begin{bmatrix}
+x_{11} & x_{12} & \cdots & x_{1n} \\
+x_{21} & x_{22} & \cdots & x_{2n} \\
+\vdots & \vdots & \ddots & \vdots \\
+x_{m1} & x_{m2} & \cdots & x_{mn}
+\end{bmatrix}
+$$
+
 ## Models
 
 ### Linear Regression
