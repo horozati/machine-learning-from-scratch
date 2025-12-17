@@ -52,7 +52,14 @@ $$
 
 W is the weights shaped n(number of input features) x r(number of label features)
 
-\( B = \begin{bmatrix} b_1 \\ b_2 \\ \vdots \\ b_r \end{bmatrix} \)$$
+B =
+\begin{bmatrix}
+w_{1} \\
+w_{2} \\
+\vdots \\
+w_{r} 
+\end{bmatrix}
+$$
 
 B is the bias term shaped 1 x r
 
