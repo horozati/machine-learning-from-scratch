@@ -36,7 +36,9 @@ x_{21} & x_{22} & \cdots & x_{2n} \\
 \vdots & \vdots & \ddots & \vdots \\
 x_{m1} & x_{m2} & \cdots & x_{mn}
 \end{bmatrix}
-$$ X is our inputs shaped m(number of samples) x n(number of features)
+$$ 
+
+X is our inputs shaped m(number of samples) x n(number of input features)
 
 $$
 W =
@@ -47,6 +49,12 @@ w_{21} & w_{22} & \cdots & w_{2r} \\
 w_{n1} & w_{n2} & \cdots & w_{nr}
 \end{bmatrix}
 $$
+
+W is the weights shaped n(number of input features) x r(number of label features)
+
+\( B = \begin{bmatrix} b_1 \\ b_2 \\ \vdots \\ b_r \end{bmatrix} \)
+
+B is the bias term shaped 1 x r
 
 ```python
 import numpy as np
