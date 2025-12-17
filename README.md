@@ -63,7 +63,7 @@ B is the bias terms shaped 1 x r
 
 We obtain our input using forward propagation.
 $$
-\hat{Y} = X\cdotW + B
+\hat{Y} = XW + B
 $$
 
 ```python
