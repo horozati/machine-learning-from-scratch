@@ -14,8 +14,8 @@ This library implements core ML algorithms from the ground up, including:
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/miniml.git
-cd miniml
+git clone https://github.com/horozati/machine-learning-from-scratch.git
+cd machine-learning-from-scratch
 
 # Install dependencies
 pip install -r requirements.txt
