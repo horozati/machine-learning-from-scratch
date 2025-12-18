@@ -26,295 +26,146 @@ pip install -e .
 
 ## Models
 
-Linear Regression (Multi-output)
-Notation and Dimensions
+\section{Linear Regression (Multi-output)}
+
+\subsection{Notation and Dimensions}
 
 Let:
+\begin{itemize}
+    \item $n$ be the number of samples
+    \item $m$ be the number of input features
+    \item $r$ be the number of output dimensions
+\end{itemize}
 
-n
-n: number of samples
+\subsection{Input Matrix}
 
-m
-m: number of input features
+\[
+X \in \mathbb{R}^{n \times m}
+\]
 
-r
-r: number of output (label) dimensions
+\[
+X =
+\begin{bmatrix}
+x_{11} & x_{12} & \cdots & x_{1m} \\
+x_{21} & x_{22} & \cdots & x_{2m} \\
+\vdots & \vdots & \ddots & \vdots \\
+x_{n1} & x_{n2} & \cdots & x_{nm}
+\end{bmatrix}
+\]
 
-Inputs
-X∈Rn×m
-X∈R
-n×m
-X=[x11	x12	⋯	x1m
-x21	x22	⋯	x2m
-⋮	⋮	⋱	⋮
-xn1	xn2	⋯	xnm]
-X=
-​x11​x21​⋮xn1​​x12​x22​⋮xn2​​⋯⋯⋱⋯​x1m​x2m​⋮xnm​​
-​
+\subsection{Target Matrix}
 
-Targets
-Y∈Rn×r
-Y∈R
-n×r
-Y=[y11	y12	⋯	y1r
-y21	y22	⋯	y2r
-⋮	⋮	⋱	⋮
-yn1	yn2	⋯	ynr]
-Y=
-​y11​y21​⋮yn1​​y12​y22​⋮yn2​​⋯⋯⋱⋯​y1r​y2r​⋮ynr​​
-​
+\[
+Y \in \mathbb{R}^{n \times r}
+\]
 
-Parameters
+\[
+Y =
+\begin{bmatrix}
+y_{11} & y_{12} & \cdots & y_{1r} \\
+y_{21} & y_{22} & \cdots & y_{2r} \\
+\vdots & \vdots & \ddots & \vdots \\
+y_{n1} & y_{n2} & \cdots & y_{nr}
+\end{bmatrix}
+\]
 
-Weights
+\subsection{Model Parameters}
 
-W∈Rm×r
-W∈R
-m×r
-W=[w11	w12	⋯	w1r
-w21	w22	⋯	w2r
-⋮	⋮	⋱	⋮
-wm1	wm2	⋯	wmr]
-W=
-​w11​w21​⋮wm1​​w12​w22​⋮wm2​​⋯⋯⋱⋯​w1r​w2r​⋮wmr​​
-​
+\subsubsection{Weights}
 
+\[
+W \in \mathbb{R}^{m \times r}
+\]
 
-Bias
+\[
+W =
+\begin{bmatrix}
+w_{11} & w_{12} & \cdots & w_{1r} \\
+w_{21} & w_{22} & \cdots & w_{2r} \\
+\vdots & \vdots & \ddots & \vdots \\
+w_{m1} & w_{m2} & \cdots & w_{mr}
+\end{bmatrix}
+\]
 
-B∈R1×r
-B∈R
-1×r
-B=[b1	b2	⋯	br]
-B=[
-b
-1
-	​
+\subsubsection{Bias}
 
-	​
+\[
+B \in \mathbb{R}^{1 \times r}
+\]
 
-b
-2
-	​
+\[
+B =
+\begin{bmatrix}
+b_1 & b_2 & \cdots & b_r
+\end{bmatrix}
+\]
 
-	​
+\subsection{Forward Propagation}
 
-⋯
-	​
+The predicted outputs are computed as:
 
-b
-r
-	​
+\[
+\hat{Y} = XW + B
+\]
 
-	​
+\subsection{Loss Function (Mean Squared Error)}
 
-]
-Forward Propagation
+We define the loss as the average squared error over all samples:
 
-The model predicts outputs using a linear transformation:
+\[
+L(W, B) = \frac{1}{2n} \lVert \hat{Y} - Y \rVert_F^2
+\]
 
-Y^=XW+B
-Y
-^
-=XW+B
+\subsubsection{Expanded Form}
 
-XW∈Rn×r
-XW∈R
-n×r
+\[
+L(W,B)
+=
+\frac{1}{2n}
+\sum_{i=1}^{n}
+\sum_{j=1}^{r}
+\left(
+\sum_{k=1}^{m} X_{ik} W_{kj} + B_j - Y_{ij}
+\right)^2
+\]
 
-Bias 
-B
-B is broadcast across all samples
-
-Loss Function (Mean Squared Error)
-
-We use mean squared error (MSE) averaged over samples:
-
-Matrix Form
-L(W,B)=12n∥Y^−Y∥F2
-L(W,B)=
-2n
-1
-	​
-
-∥
-Y
-^
-−Y∥
-F
-2
-	​
-
-
-where 
-∥⋅∥F
-∥⋅∥
-F
-	​
-
- is the Frobenius norm.
-
-Expanded Form
-L(W,B)=12n∑i=1n∑j=1r(∑k=1mXikWkj+Bj−Yij)2
-L(W,B)=
-2n
-1
-	​
-
-i=1
-∑
-n
-	​
-
-j=1
-∑
-r
-	​
-
-(
-k=1
-∑
-m
-	​
-
-X
-ik
-	​
-
-W
-kj
-	​
-
-+B
-j
-	​
-
-−Y
-ij
-	​
-
-)
-2
-Backward Propagation
+\subsection{Backward Propagation}
 
 Define the error matrix:
 
-E=Y^−Y∈Rn×r
-E=
-Y
-^
-−Y∈R
-n×r
-Gradient w.r.t. Weights
-∂L∂W=1nX⊤E
-∂W
-∂L
-	​
+\[
+E = \hat{Y} - Y
+\]
 
+\subsubsection{Gradient with Respect to Weights}
+
+\[
+\frac{\partial L}{\partial W}
 =
-n
-1
-	​
+\frac{1}{n} X^\top E
+\]
 
-X
-⊤
-E
+\subsubsection{Gradient with Respect to Bias}
 
-Shape: 
-m×r
-m×r
-
-Gradient w.r.t. Bias
-∂L∂B=1n∑i=1nEi
-∂B
-∂L
-	​
-
+\[
+\frac{\partial L}{\partial B}
 =
-n
-1
-	​
+\frac{1}{n}
+\sum_{i=1}^{n} E_i
+\]
 
-i=1
-∑
-n
-	​
+\subsection{Gradient Descent Update}
 
-E
-i
-	​
+Using learning rate $\eta$:
 
+\[
+W \leftarrow W - \eta \frac{\partial L}{\partial W}
+\]
 
-Equivalent to summing over rows
+\[
+B \leftarrow B - \eta \frac{\partial L}{\partial B}
+\]
 
-Shape: 
-1×r
-1×r
-
-Parameter Update (Gradient Descent)
-
-With learning rate 
-η
-η:
-
-W←W−η∂L∂W
-W←W−η
-∂W
-∂L
-	​
-
-B←B−η∂L∂B
-B←B−η
-∂B
-∂L
-	​
-
-Summary (One Iteration)
-
-Forward
-
-Y^=XW+B
-Y
-^
-=XW+B
-
-Compute error
-
-E=Y^−Y
-E=
-Y
-^
-−Y
-
-Gradients
-
-∇W=1nX⊤E,∇B=1n∑E
-∇
-W
-	​
-
-=
-n
-1
-	​
-
-X
-⊤
-E,∇
-B
-	​
-
-=
-n
-1
-	​
-
-∑E
-
-Update
-
-W,B←W,B−η∇
-W,B←W,B−η∇
 
 ```python
 import numpy as np
