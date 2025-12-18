@@ -26,69 +26,295 @@ pip install -e .
 
 ## Models
 
-### Linear Regression
+Linear Regression (Multi-output)
+Notation and Dimensions
 
-#### Variables
+Let:
 
-$$
-X =
-\begin{bmatrix}
-x_{11} & x_{12} & \cdots & x_{1m} \\
-x_{21} & x_{22} & \cdots & x_{2m} \\
-\vdots & \vdots & \ddots & \vdots \\
-x_{n1} & x_{n2} & \cdots & x_{nm}
-\end{bmatrix}
-$$ 
+n
+n: number of samples
 
-X is our inputs shaped n(number of samples) x m(number of input features)
+m
+m: number of input features
 
-$$
-Y =
-\begin{bmatrix}
-y_{11} & y_{12} & \cdots & y_{1r} \\
-y_{21} & y_{22} & \cdots & y_{2r} \\
-\vdots & \vdots & \ddots & \vdots \\
-y_{n1} & y_{n2} & \cdots & y_{nr}
-\end{bmatrix}
-$$
+r
+r: number of output (label) dimensions
 
-Y is the labels shaped n(number of samples) x r(number of label features)
+Inputs
+X∈Rn×m
+X∈R
+n×m
+X=[x11	x12	⋯	x1m
+x21	x22	⋯	x2m
+⋮	⋮	⋱	⋮
+xn1	xn2	⋯	xnm]
+X=
+​x11​x21​⋮xn1​​x12​x22​⋮xn2​​⋯⋯⋱⋯​x1m​x2m​⋮xnm​​
+​
 
-$$
-W =
-\begin{bmatrix}
-w_{11} & w_{12} & \cdots & w_{1r} \\
-w_{21} & w_{22} & \cdots & w_{2r} \\
-\vdots & \vdots & \ddots & \vdots \\
-w_{m1} & w_{m2} & \cdots & w_{mr}
-\end{bmatrix}
-$$
+Targets
+Y∈Rn×r
+Y∈R
+n×r
+Y=[y11	y12	⋯	y1r
+y21	y22	⋯	y2r
+⋮	⋮	⋱	⋮
+yn1	yn2	⋯	ynr]
+Y=
+​y11​y21​⋮yn1​​y12​y22​⋮yn2​​⋯⋯⋱⋯​y1r​y2r​⋮ynr​​
+​
 
-W is the weights shaped m x r
+Parameters
 
-$$
-B =
-\begin{bmatrix}
-b_{1} & b_{2} & \cdots & b_{r}
-\end{bmatrix}
-$$
+Weights
 
-B is the bias terms shaped 1 x r
+W∈Rm×r
+W∈R
+m×r
+W=[w11	w12	⋯	w1r
+w21	w22	⋯	w2r
+⋮	⋮	⋱	⋮
+wm1	wm2	⋯	wmr]
+W=
+​w11​w21​⋮wm1​​w12​w22​⋮wm2​​⋯⋯⋱⋯​w1r​w2r​⋮wmr​​
+​
 
-#### Forward Propagation
 
-We first estimate the labels using the random weights and biases(or zero) which is probably off from the labels the first time, this estimate is called \( \hat{Y} \) .
+Bias
 
-$$
-\hat{Y} = X \cdot W + B
-$$
+B∈R1×r
+B∈R
+1×r
+B=[b1	b2	⋯	br]
+B=[
+b
+1
+	​
 
-#### Backward Propagation
+	​
 
-We define a function L that takes our weights and biases as inputs and uses forward propagation to estimate Y_hat. After that it computes the sum of squared residuals divided by 2n to measure and quantify the error of the predictions.
+b
+2
+	​
 
-\( L(W,B) = \frac{1}{2n} \sum_{i=1}^n \sum_{j=1}^r \sum_{k=1}^m (X_{ik} W_{kj} + B_j - Y_{ij})^2 \)
+	​
 
+⋯
+	​
+
+b
+r
+	​
+
+	​
+
+]
+Forward Propagation
+
+The model predicts outputs using a linear transformation:
+
+Y^=XW+B
+Y
+^
+=XW+B
+
+XW∈Rn×r
+XW∈R
+n×r
+
+Bias 
+B
+B is broadcast across all samples
+
+Loss Function (Mean Squared Error)
+
+We use mean squared error (MSE) averaged over samples:
+
+Matrix Form
+L(W,B)=12n∥Y^−Y∥F2
+L(W,B)=
+2n
+1
+	​
+
+∥
+Y
+^
+−Y∥
+F
+2
+	​
+
+
+where 
+∥⋅∥F
+∥⋅∥
+F
+	​
+
+ is the Frobenius norm.
+
+Expanded Form
+L(W,B)=12n∑i=1n∑j=1r(∑k=1mXikWkj+Bj−Yij)2
+L(W,B)=
+2n
+1
+	​
+
+i=1
+∑
+n
+	​
+
+j=1
+∑
+r
+	​
+
+(
+k=1
+∑
+m
+	​
+
+X
+ik
+	​
+
+W
+kj
+	​
+
++B
+j
+	​
+
+−Y
+ij
+	​
+
+)
+2
+Backward Propagation
+
+Define the error matrix:
+
+E=Y^−Y∈Rn×r
+E=
+Y
+^
+−Y∈R
+n×r
+Gradient w.r.t. Weights
+∂L∂W=1nX⊤E
+∂W
+∂L
+	​
+
+=
+n
+1
+	​
+
+X
+⊤
+E
+
+Shape: 
+m×r
+m×r
+
+Gradient w.r.t. Bias
+∂L∂B=1n∑i=1nEi
+∂B
+∂L
+	​
+
+=
+n
+1
+	​
+
+i=1
+∑
+n
+	​
+
+E
+i
+	​
+
+
+Equivalent to summing over rows
+
+Shape: 
+1×r
+1×r
+
+Parameter Update (Gradient Descent)
+
+With learning rate 
+η
+η:
+
+W←W−η∂L∂W
+W←W−η
+∂W
+∂L
+	​
+
+B←B−η∂L∂B
+B←B−η
+∂B
+∂L
+	​
+
+Summary (One Iteration)
+
+Forward
+
+Y^=XW+B
+Y
+^
+=XW+B
+
+Compute error
+
+E=Y^−Y
+E=
+Y
+^
+−Y
+
+Gradients
+
+∇W=1nX⊤E,∇B=1n∑E
+∇
+W
+	​
+
+=
+n
+1
+	​
+
+X
+⊤
+E,∇
+B
+	​
+
+=
+n
+1
+	​
+
+∑E
+
+Update
+
+W,B←W,B−η∇
+W,B←W,B−η∇
 
 ```python
 import numpy as np
