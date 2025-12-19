@@ -28,7 +28,7 @@ pip install -e .
 
 ### Linear Regression
 
-### Notation and Dimensions
+#### Notation and Dimensions
 
 Let:
 - $n$ be the number of samples  
@@ -37,7 +37,7 @@ Let:
 
 ---
 
-### Input Matrix
+#### Input Matrix
 
 $$
 X \in \mathbb{R}^{n \times m}
@@ -55,7 +55,7 @@ $$
 
 ---
 
-### Target Matrix
+#### Target Matrix
 
 $$
 Y \in \mathbb{R}^{n \times r}
@@ -73,9 +73,9 @@ $$
 
 ---
 
-### Model Parameters
+#### Model Parameters
 
-#### Weights
+##### Weights
 
 $$
 W \in \mathbb{R}^{m \times r}
@@ -91,7 +91,7 @@ w_{m1} & w_{m2} & \cdots & w_{mr}
 \end{bmatrix}
 $$
 
-#### Bias
+##### Biases
 
 $$
 B \in \mathbb{R}^{1 \times r}
@@ -106,7 +106,7 @@ $$
 
 ---
 
-### Forward Propagation
+#### Forward Propagation
 
 The predicted outputs are computed as:
 
@@ -116,7 +116,7 @@ $$
 
 ---
 
-### Loss Function (Mean Squared Error)
+#### Loss Function (Mean Squared Error)
 
 The loss is defined as the average squared error over all samples:
 
@@ -124,7 +124,7 @@ $$
 L(W,B) = \frac{1}{2n} \lVert \hat{Y} - Y \rVert_F^2
 $$
 
-#### Expanded Form
+##### Expanded Form
 
 $$
 L(W,B) =
@@ -138,7 +138,7 @@ $$
 
 ---
 
-### Backward Propagation
+#### Backward Propagation
 
 Define the error matrix:
 
@@ -148,7 +148,7 @@ $$
 
 ---
 
-#### Gradient with Respect to Weights
+##### Gradient with Respect to Weights
 
 $$
 \frac{\partial L}{\partial W} = \frac{1}{n} X^\top E
@@ -156,7 +156,7 @@ $$
 
 ---
 
-#### Gradient with Respect to Bias
+##### Gradient with Respect to Bias
 
 $$
 \frac{\partial L}{\partial B} = \frac{1}{n} \sum_{i=1}^{n} E_i
@@ -164,7 +164,7 @@ $$
 
 ---
 
-### Gradient Descent Update
+#### Gradient Descent Update
 
 Using learning rate $\eta$:
 
