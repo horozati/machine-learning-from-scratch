@@ -31,9 +31,9 @@ pip install -e .
 #### Notation and Dimensions
 
 Let:
-- $n$ be the number of samples  
-- $m$ be the number of input features  
-- $r$ be the number of output dimensions  
+- $n$ be the number of samples
+- $m$ be the number of input features
+- $r$ be the number of output dimensions
 
 ---
 
@@ -208,15 +208,27 @@ print(predictions)  # Should be close to [[12], [14]]
 Let:
 - $n$ be the number of samples
 - $m$ be the number of input features
+- $r$ be the number of output dimensions (classes)
 - $X \in \mathbb{R}^{n \times m}$ be the input matrix
-- $y \in \{0,1\}^n$ be the binary labels (for binary classification)
+- $Y \in \{0,1\}^{n \times r}$ be the target matrix (one-hot encoded for multi-class)
 
 ---
 
 #### Model Parameters
 
-- Weights: $W \in \mathbb{R}^{m \times 1}$
-- Bias: $b \in \mathbb{R}$
+##### Weights
+
+$$
+W \in \mathbb{R}^{m \times r}
+$$
+
+##### Bias
+
+$$
+B \in \mathbb{R}^{1 \times r}
+$$
+
+For binary classification, $r=1$.
 
 ---
 
@@ -238,19 +250,29 @@ Properties:
 #### Forward Propagation
 
 $$
-z = XW + b
+Z = XW + B
 $$
 
 $$
-\hat{y} = \sigma(z) = \frac{1}{1 + e^{-(XW + b)}}
+\hat{Y} = \sigma(Z) = \frac{1}{1 + e^{-(XW + B)}}
 $$
+
+Where $\sigma$ is applied element-wise.
 
 ---
 
 #### Loss Function (Binary Cross-Entropy)
 
+For multi-output classification:
+
 $$
-L(W, b) = -\frac{1}{n} \sum_{i=1}^{n} \left[ y_i \log(\hat{y}_i) + (1-y_i)\log(1-\hat{y}_i) \right]
+L(W, B) = -\frac{1}{n} \sum_{i=1}^{n} \sum_{j=1}^{r} \left[ Y_{ij} \log(\hat{Y}_{ij}) + (1-Y_{ij})\log(1-\hat{Y}_{ij}) \right]
+$$
+
+For binary classification ($r=1$):
+
+$$
+L(W, B) = -\frac{1}{n} \sum_{i=1}^{n} \left[ Y_i \log(\hat{Y}_i) + (1-Y_i)\log(1-\hat{Y}_i) \right]
 $$
 
 ---
@@ -260,7 +282,7 @@ $$
 Define the error:
 
 $$
-E = \hat{y} - y
+E = \hat{Y} - Y
 $$
 
 ##### Gradient with Respect to Weights
@@ -272,7 +294,7 @@ $$
 ##### Gradient with Respect to Bias
 
 $$
-\frac{\partial L}{\partial b} = \frac{1}{n} \sum_{i=1}^{n} E_i
+\frac{\partial L}{\partial B} = \frac{1}{n} \sum_{i=1}^{n} E_i
 $$
 
 ---
@@ -284,23 +306,31 @@ W \leftarrow W - \eta \frac{\partial L}{\partial W}
 $$
 
 $$
-b \leftarrow b - \eta \frac{\partial L}{\partial b}
+B \leftarrow B - \eta \frac{\partial L}{\partial B}
 $$
 
 ---
 
 #### Prediction
 
-For binary classification:
+For binary classification ($r=1$):
 
 $$
-\hat{y}_{\text{class}} = \begin{cases}
-1 & \text{if } \sigma(XW + b) \geq 0.5 \\
+\hat{Y}_{\text{class}} = \begin{cases}
+1 & \text{if } \sigma(XW + B) \geq 0.5 \\
 0 & \text{otherwise}
 \end{cases}
 $$
 
+For multi-class classification (one-hot encoded):
+
+$$
+\hat{y}_{\text{class}} = \arg\max_j \hat{Y}_{ij}
+$$
+
 #### Code Example
+
+##### Binary Classification
 
 ```python
 import numpy as np
@@ -318,6 +348,30 @@ model.fit(X_train, y_train)
 
 # Evaluate
 print(f"Accuracy: {model.score(X_test, y_test):.2%}")
+```
+
+##### Multi-Class Classification
+
+```python
+import numpy as np
+from src.miniml import LogisticRegression, one_hot
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+
+# Load data
+X, y = load_iris(return_X_y=True)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
+
+# One-hot encode labels
+y_train_oh = one_hot(y_train)
+y_test_oh = one_hot(y_test)
+
+# Train model
+model = LogisticRegression(iterations=1000, lr=0.01)
+model.fit(X_train, y_train_oh)
+
+# Evaluate
+print(f"Accuracy: {model.score(X_test, y_test_oh):.2%}")
 ```
 
 ---
@@ -773,7 +827,7 @@ print(f"R² Score: {r2_score(y_test, model.predict(X_test)):.4f}")
 | Class | Description |
 |-------|-------------|
 | `LinearRegression` | Linear regression with optional L1/L2 regularization |
-| `LogisticRegression` | Binary/multi-label classification with sigmoid activation |
+| `LogisticRegression` | Binary/multi-class classification with sigmoid activation |
 
 ### Neural Networks
 
