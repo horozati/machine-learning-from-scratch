@@ -108,6 +108,8 @@ $$
 
 ### Forward Propagation
 
+The predicted outputs are computed as:
+
 $$
 \hat{Y} = XW + B
 $$
@@ -116,15 +118,16 @@ $$
 
 ### Loss Function (Mean Squared Error)
 
+The loss is defined as the average squared error over all samples:
+
 $$
-L(W, B) = \frac{1}{2n} \lVert \hat{Y} - Y \rVert_F^2
+L(W,B) = \frac{1}{2n} \lVert \hat{Y} - Y \rVert_F^2
 $$
 
 #### Expanded Form
 
 $$
-L(W,B)
-=
+L(W,B) =
 \frac{1}{2n}
 \sum_{i=1}^{n}
 \sum_{j=1}^{r}
@@ -137,24 +140,26 @@ $$
 
 ### Backward Propagation
 
+Define the error matrix:
+
 $$
 E = \hat{Y} - Y
 $$
 
-#### Gradient w.r.t. Weights
+---
+
+#### Gradient with Respect to Weights
 
 $$
-\frac{\partial L}{\partial W}
-=
-\frac{1}{n} X^\top E
+\frac{\partial L}{\partial W} = \frac{1}{n} X^\top E
 $$
 
-#### Gradient w.r.t. Bias
+---
+
+#### Gradient with Respect to Bias
 
 $$
-\frac{\partial L}{\partial B}
-=
-\frac{1}{n} \sum_{i=1}^{n} E_i
+\frac{\partial L}{\partial B} = \frac{1}{n} \sum_{i=1}^{n} E_i
 $$
 
 ---
@@ -170,6 +175,7 @@ $$
 $$
 B \leftarrow B - \eta \frac{\partial L}{\partial B}
 $$
+
 ```python
 import numpy as np
 from src.miniml import LinearRegression
