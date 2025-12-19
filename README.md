@@ -229,31 +229,34 @@ model.fit(X_train, y_train_oh)
 print(f"Accuracy: {model.score(X_test, y_test_oh):.2%}")
 ```
 
-### Decision Tree
+### Decision Tree Classifier
 
-#### Notation
+#### Notation and Dimensions
 
 Let:
-- $X \in \mathbb{R}^{n \times m}$ be the input data  
-- $y \in \{1,2,\dots,C\}^n$ be the class labels  
-- $n$ be the number of samples  
-- $m$ be the number of features  
-- $C$ be the number of classes  
+- \( X \in \mathbb{R}^{n \times m} \) be the input data  
+- \( y \in \{0,1,\dots,C-1\}^n \) be the class labels  
+- \( n \) be the number of samples  
+- \( m \) be the number of features  
+- \( C \) be the number of classes  
 
 ---
 
 #### Dataset at a Node
 
-At a given node $t$, let:
-- $S_t$ be the set of samples reaching the node
-- $|S_t|$ be the number of samples in the node
+At a given node \( t \), let:
+- \( S_t \) be the set of samples reaching the node  
+- \( |S_t| \) be the number of samples in the node  
 
-For class $c$, define the class probability:
+For class \( c \), the empirical class probability is
 
-$$
-p_{t,c} = \frac{1}{|S_t|}
-\sum_{i \in S_t} \mathbf{1}(y_i = c)
-$$
+\[
+p_{t,c}
+=
+\frac{1}{|S_t|}
+\sum_{i \in S_t}
+\mathbf{1}(y_i = c)
+\]
 
 ---
 
@@ -261,111 +264,131 @@ $$
 
 ##### Entropy
 
-$$
-H(S_t) =
+\[
+H(S_t)
+=
 -\sum_{c=1}^{C}
-p_{t,c} \log_2(p_{t,c})
-$$
+p_{t,c}
+\log_2\!\left(p_{t,c}\right)
+\]
 
 ---
 
 ##### Gini Impurity
 
-$$
-G(S_t) =
+\[
+G(S_t)
+=
 1 - \sum_{c=1}^{C} p_{t,c}^2
-$$
+\]
 
 ---
 
 #### Splitting a Node
 
 A split is defined by:
-- feature index $j$
-- threshold $s$
+- feature index \( j \)
+- threshold \( s \)
 
-The dataset is split as:
+The dataset is partitioned as
 
-$$
-S_t^{\text{left}} = \{x_i \in S_t \mid x_{ij} \le s\}
-$$
+\[
+S_t^{\text{left}}
+=
+\left\{
+x_i \in S_t \;\middle|\; x_{ij} \le s
+\right\}
+\]
 
-$$
-S_t^{\text{right}} = \{x_i \in S_t \mid x_{ij} > s\}
-$$
+\[
+S_t^{\text{right}}
+=
+\left\{
+x_i \in S_t \;\middle|\; x_{ij} > s
+\right\}
+\]
 
 ---
 
-#### Information Gain (Entropy-based)
+#### Split Quality
 
-$$
+##### Information Gain (Entropy)
+
+\[
 IG(S_t, j, s)
 =
 H(S_t)
 -
-\frac{|S_t^{\text{left}}|}{|S_t|} H(S_t^{\text{left}})
+\frac{|S_t^{\text{left}}|}{|S_t|}
+H(S_t^{\text{left}})
 -
-\frac{|S_t^{\text{right}}|}{|S_t|} H(S_t^{\text{right}})
-$$
+\frac{|S_t^{\text{right}}|}{|S_t|}
+H(S_t^{\text{right}})
+\]
 
 ---
 
-#### Gini Gain (Gini-based)
+##### Gini Gain
 
-$$
+\[
 \Delta G(S_t, j, s)
 =
 G(S_t)
 -
-\frac{|S_t^{\text{left}}|}{|S_t|} G(S_t^{\text{left}})
+\frac{|S_t^{\text{left}}|}{|S_t|}
+G(S_t^{\text{left}})
 -
-\frac{|S_t^{\text{right}}|}{|S_t|} G(S_t^{\text{right}})
-$$
+\frac{|S_t^{\text{right}}|}{|S_t|}
+G(S_t^{\text{right}})
+\]
 
 ---
 
-#### Best Split
+#### Best Split Selection
 
-The optimal split $(j^\*, s^\*)$ is chosen as:
+The optimal split is chosen as
 
-$$
-(j^\*, s^\*) =
-\arg\max_{j,s} IG(S_t, j, s)
-$$
-
-(or equivalently maximize $\Delta G$)
+\[
+(j^\*, s^\*)
+=
+\arg\max_{j,s}
+\Delta G(S_t, j, s)
+\]
 
 ---
 
 #### Leaf Node Prediction
 
-At a leaf node, the predicted class is:
+At a leaf node, the predicted class is
 
-$$
-\hat{y} =
+\[
+\hat{y}
+=
 \arg\max_{c}
 p_{t,c}
-$$
+\]
 
 ---
 
 #### Stopping Criteria
 
-A node becomes a leaf if:
+A node becomes a leaf if any of the following holds:
 - all samples belong to the same class  
-- maximum depth is reached  
-- $|S_t| < \text{min\_samples\_split}$  
-- information gain is zero  
+- the maximum depth is reached  
+- \( |S_t| < \text{min\_samples\_split} \)  
+- the impurity gain is zero  
 
 ---
 
 #### Prediction for a Sample
 
-A test sample $x$ is classified by recursively applying the split rules:
+A test sample \( x \) is classified by recursively applying the learned split rules:
 
-$$
-\hat{y}(x) = \text{class at reached leaf}
-$$
+\[
+\hat{y}(x)
+=
+\text{class of the leaf node reached by } x
+\]
 
 #### Code
 
