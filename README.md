@@ -139,14 +139,15 @@ $$
 which simplifies to:
 
 $$
-\( L(W,B) = \frac{1}{2n} \sum_{i=1}^n (\hat{Y}_i - Y_i)^2 \)
+\ L(W,B) = \frac{1}{2n} \sum_{i=1}^n \sum_{j=1}^r ( \hat{Y}_{ij} - Y_{ij} )^2 \
 $$
 
 ---
 
 #### Backward Propagation
 
-Define the error matrix:
+For backward propagation, we need to calculate the partial derivative of weights and biases with respect to loss.
+For that, we can use the chain rule:
 
 $$
 E = \hat{Y} - Y
