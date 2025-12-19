@@ -136,6 +136,12 @@ L(W,B) =
 \right)^2
 $$
 
+which simplifies to:
+
+$$
+\( L(W,B) = \frac{1}{2n} \sum_{i=1}^n (\hat{Y}_i - Y_i)^2 \)
+$$
+
 ---
 
 #### Backward Propagation
