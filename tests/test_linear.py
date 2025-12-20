@@ -9,7 +9,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 import numpy as np
 from miniml.linear_model import LinearRegression, LogisticRegression
-
+np.random.seed(2025)
 
 def test_linear_fit():
     """Test that LinearRegression can fit a simple y = 2x + 1 pattern."""
@@ -31,7 +31,6 @@ def test_linear_fit():
 
 def test_linear_r2():
     """Test that LinearRegression achieves high R2 on simple data."""
-    np.random.seed(42)
     
     # Generate data: y = 3x + noise
     X = np.random.randn(100, 1) * 2
@@ -72,7 +71,6 @@ def test_linear_regularization():
 
 def test_logistic_binary():
     """Test LogisticRegression on binary classification."""
-    np.random.seed(42)
     
     # Create separable data
     X_class0 = np.random.randn(50, 2) - 2
