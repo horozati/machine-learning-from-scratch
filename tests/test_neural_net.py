@@ -10,10 +10,10 @@ import numpy as np
 from miniml.neural_net import NeuralNetRegressor, NeuralNetClassifier, Dense, ReLU, Sigmoid, Softmax
 from miniml.metrics import mse, r2_score, accuracy, one_hot
 
+np.random.seed(2025)
 
 def test_neural_net_regressor_simple():
     """Test that NeuralNetRegressor can fit simple linear data."""
-    np.random.seed(2025)
     
     # Simple linear relationship: y = 2x + 1
     X = np.linspace(0, 10, 100).reshape(-1, 1)
@@ -41,7 +41,6 @@ def test_neural_net_regressor_simple():
 
 def test_neural_net_regressor_r2():
     """Test R² score on regression data."""
-    np.random.seed(2025)
     
     # Multi-feature data
     X = np.random.randn(200, 3)
@@ -69,7 +68,6 @@ def test_neural_net_regressor_r2():
 
 def test_neural_net_classifier_binary():
     """Test binary classification."""
-    np.random.seed(2025)
     
     # Binary classification data
     X_class0 = np.random.randn(50, 2) - 2
@@ -99,7 +97,6 @@ def test_neural_net_classifier_binary():
 
 def test_neural_net_classifier_multiclass():
     """Test multi-class classification."""
-    np.random.seed(2025)
     
     # 3-class data with clear separation
     X_class0 = np.random.randn(40, 2) + np.array([0, 0])
@@ -132,7 +129,6 @@ def test_neural_net_classifier_multiclass():
 
 def test_neural_net_predict_proba():
     """Test that predict_proba returns valid probabilities."""
-    np.random.seed(2025)
     
     X = np.random.randn(50, 2)
     y = (X[:, 0] + X[:, 1] > 0).astype(int)
@@ -168,7 +164,6 @@ def test_neural_net_predict_proba():
 
 def test_neural_net_deeper_network():
     """Test that deeper networks can fit complex data."""
-    np.random.seed(2025)
     
     # Non-linear XOR-like problem
     X = np.random.rand(200, 2) * 4 - 2
@@ -212,7 +207,6 @@ def test_neural_net_deeper_network():
 
 def test_neural_net_regularization():
     """Test that L1/L2 regularization affects training."""
-    np.random.seed(2025)
     
     X = np.random.randn(100, 5)
     y = X[:, 0:1] * 2 + np.random.randn(100, 1) * 0.5
@@ -260,7 +254,6 @@ def test_neural_net_regularization():
 
 def test_neural_net_activation_functions():
     """Test different activation functions."""
-    np.random.seed(2025)
     
     X = np.random.randn(100, 3)
     y = (X[:, 0] + X[:, 1] - X[:, 2] > 0).astype(int)
