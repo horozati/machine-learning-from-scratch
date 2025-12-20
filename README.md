@@ -608,18 +608,26 @@ $$
 #### Splitting a Node
 
 A split is defined by:
-- feature index $j$
-- threshold $s$
+- feature index \( j \)
+- threshold \( s \)
 
 The dataset is partitioned as
 
 $$
-S_t^{\text{left}} = \left\{ x_i \in S_t \;\middle|\; x_{ij} \le s \right\}
+S_t^{\mathrm{left}}(j, s)
+=
+\{ x_i \in S_t \mid x_{i,j} \le s \}
 $$
 
 $$
-S_t^{\text{right}} = \left\{ x_i \in S_t \;\middle|\; x_{ij} > s \right\}
+S_t^{\mathrm{right}}(j, s)
+=
+\left\{ x_i \in S_t \mid x_{i,j} > s \right\}
 $$
+
+
+
+
 
 ---
 
@@ -644,7 +652,7 @@ $$
 The optimal split is chosen as
 
 $$
-(j^*, s^*) = \arg\max_{j,s} \Delta G(S_t, j, s)
+(\hat{j}, \hat{s}) = \underset{j,s}{\arg\max}\; \Delta G(S_t, j, s)
 $$
 
 ---
@@ -664,7 +672,7 @@ $$
 A node becomes a leaf if any of the following holds:
 - all samples belong to the same class
 - the maximum depth is reached
-- $|S_t| < \text{min\_samples\_split}$
+- the number of samples is less than the minimum samples required for splitting
 - the impurity gain is zero
 
 ---
@@ -743,11 +751,11 @@ A split is defined by:
 The dataset is partitioned as
 
 $$
-S_t^{\text{left}} = \left\{ x_i \in S_t \;\middle|\; x_{ij} \le s \right\}
+S_t^{\text{left}} = \{ x_i \in S_t \mid x_{ij} \le s \}
 $$
 
 $$
-S_t^{\text{right}} = \left\{ x_i \in S_t \;\middle|\; x_{ij} > s \right\}
+S_t^{\text{right}} = \{ x_i \in S_t \mid x_{ij} > s \}
 $$
 
 ---
@@ -784,7 +792,7 @@ $$
 
 A node becomes a leaf if any of the following holds:
 - the maximum depth is reached
-- $|S_t| < \text{min\_samples\_split}$
+- the number of samples is less than the minimum samples required for splitting
 - the variance reduction is below a threshold
 - all target values are identical
 
