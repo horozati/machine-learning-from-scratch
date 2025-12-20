@@ -317,16 +317,21 @@ For binary classification ($r=1$):
 
 $$
 \hat{Y}_{\text{class}} = \begin{cases}
-1 & \text{if } \sigma(XW + B) \geq 0.5 \\
+1 & \text{if } \sigma(Z) \geq 0.5 \\
 0 & \text{otherwise}
 \end{cases}
 $$
 
-For multi-class classification (one-hot encoded):
+For multi-label classification:
 
 $$
-\hat{y}_{\text{class}} = \arg\max_j \hat{Y}_{ij}
+\hat{Y}_{i,\text{class}}=
+\begin{cases}
+1 & \text{if } \sigma\\left(Z_{i,\text{class}}\right) \ge 0.5 \\
+0 & \text{otherwise}
+\end{cases}
 $$
+
 
 #### Code Example
 
@@ -350,28 +355,36 @@ model.fit(X_train, y_train)
 print(f"Accuracy: {model.score(X_test, y_test):.2%}")
 ```
 
-##### Multi-Class Classification
+##### Multi-Label Classification
 
 ```python
 import numpy as np
-from src.miniml import LogisticRegression, one_hot
-from sklearn.datasets import load_iris
+from src.miniml import LogisticRegression
+from sklearn.datasets import make_multilabel_classification
 from sklearn.model_selection import train_test_split
 
-# Load data
-X, y = load_iris(return_X_y=True)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
-
-# One-hot encode labels
-y_train_oh = one_hot(y_train)
-y_test_oh = one_hot(y_test)
-
-# Train model
-model = LogisticRegression(iterations=1000, lr=0.01)
-model.fit(X_train, y_train_oh)
+# Generate multi-label data
+X, Y = make_multilabel_classification(
+    n_samples=1000,
+    n_features=20,
+    n_classes=5,
+    n_labels=2,
+    random_state=42
+)
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(
+    X, Y, test_size=0.25, random_state=42
+)
+# Train model (multi-label logistic regression)
+model = LogisticRegression(
+    iterations=1000,
+    lr=0.01,
+    multilabel=True
+)
+model.fit(X_train, y_train)
 
 # Evaluate
-print(f"Accuracy: {model.score(X_test, y_test_oh):.2%}")
+print(f"Accuracy: {model.score(X_test, y_test):.2%}")
 ```
 
 ---
@@ -613,18 +626,9 @@ A split is defined by:
 
 The dataset is partitioned as
 
-$$
-S_t^{\mathrm{left}}(j, s)
-=
-\{ x_i \in S_t \mid x_{i,j} \le s \}
-$$
+$$ S_t^{\mathrm{left}}(j,s) = \{ x_i \in S_t \mid x_{i,j} \le s \} $$
 
-$$
-S_t^{\mathrm{right}}(j, s)
-=
-\left\{ x_i \in S_t \mid x_{i,j} > s \right\}
-$$
-
+$$ S_t^{\mathrm{right}}(j,s) = \{ x_i \in S_t \mid x_{i,j} > s \} $$
 
 
 
@@ -773,7 +777,7 @@ $$
 The optimal split maximizes variance reduction:
 
 $$
-(j^*, s^*) = \arg\max_{j,s} \Delta \text{Var}(S_t, j, s)
+(\hat{j}, \hat{s}) = \arg\max_{j,s} \Delta \text{Var}(S_t, j, s)
 $$
 
 ---
