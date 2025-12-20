@@ -10,10 +10,9 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 import numpy as np
 from miniml.tree import DecisionTreeRegressor, DecisionTreeClassifier
 
-
+np.random.seed(2025)
 def test_tree_regressor_fit():
     """Test that DecisionTreeRegressor can fit simple data."""
-    np.random.seed(2025)
     
     # Create simple pattern
     X = np.array([[1], [2], [3], [4], [5], [6], [7], [8]])
@@ -33,7 +32,6 @@ def test_tree_regressor_fit():
 
 def test_tree_regressor_r2():
     """Test R2 score on regression data."""
-    np.random.seed(2025)
     
     # More complex data
     X = np.random.randn(100, 3)
@@ -49,7 +47,6 @@ def test_tree_regressor_r2():
 
 def test_tree_classifier_fit():
     """Test that DecisionTreeClassifier can classify simple data."""
-    np.random.seed(2025)
     
     # Create separable data
     X_class0 = np.random.randn(30, 2) - 1.5
@@ -68,7 +65,6 @@ def test_tree_classifier_fit():
 
 def test_tree_classifier_entropy():
     """Test classifier with entropy criterion."""
-    np.random.seed(2025)
     
     # Multi-class data
     X_class0 = np.random.randn(20, 2) + np.array([0, 0])
@@ -87,7 +83,6 @@ def test_tree_classifier_entropy():
 
 def test_tree_depth_limit():
     """Test that max_depth limits tree complexity."""
-    np.random.seed(2025)
     
     X = np.random.randn(100, 5)
     y = (X[:, 0] > 0).astype(int)
